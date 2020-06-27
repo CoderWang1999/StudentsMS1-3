@@ -124,116 +124,46 @@ class StudentUtil{
 }
 public class Demo2_1 {
     public static void main(String[] args) throws IOException {
-        TreeMap<String, Student> tm = new TreeMap<>();
-        Scanner cin = new Scanner(System.in);
-        out:
-        while (true) {
-            System.out.println("--------欢迎来到学生信息管理系统--------");
-            System.out.println("1 添加学生");
-            System.out.println("2 删除学生");
-            System.out.println("3 修改学生");
-            System.out.println("4 查看学生");
-            System.out.println("5 退出");
-            System.out.println("请输入你的选择:");
-            //2. 用户键盘录入选项
-            int num = cin.nextInt();
+            TreeMap<String, Student> tm = new TreeMap<>();
+            Scanner cin = new Scanner(System.in);
+            out:
+            while (true) {
+                System.out.println("--------欢迎来到学生信息管理系统--------");
+                System.out.println("1 添加学生");
+                System.out.println("2 删除学生");
+                System.out.println("3 修改学生");
+                System.out.println("4 查看学生");
+                System.out.println("5 退出");
+                System.out.println("请输入你的选择:");
+                //2. 用户键盘录入选项
+                int num = cin.nextInt();
 
-            //3. 功能路由
-            switch (num) {
-                case 1:
-                    addStudent(tm, cin);
-                    break;
-                case 2:
-                    deleteStudent(tm,cin);
-                    break;
-                case 3:
-                    updateStudent(tm, cin);
-                    break;
-                case 4:
-                    findAll(tm);
-                    break;
-                case 5:
-                    System.out.println("谢谢使用!");
+                //3. 功能路由
+                switch (num) {
+                    case 1:
+                        addStudent(tm, cin);
+                        break;
+                    case 2:
+                        deleteStudent(tm,cin);
+                        break;
+                    case 3:
+                        updateStudent(tm, cin);
+                        break;
+                    case 4:
+                        findAll(tm);
+                        break;
+                    case 5:
+                        System.out.println("谢谢使用!");
 //                    return;  //结束方法
 //                     System.exit(0);    //退出虚拟机
-                    break out;  //指定退出while
+                        break out;  //指定退出while
+                }
             }
         }
-    }
-    //添加学生方法
-    private static void addStudent(TreeMap<String,Student> tm, Scanner sc) throws IOException {
-        String sid = StudentUtil.getSid(tm);
+        //添加学生方法
+        private static void addStudent(TreeMap<String,Student> tm, Scanner sc) throws IOException {
+            String sid = StudentUtil.getSid(tm);
 
-        System.out.println("请输入姓名:");
-        String name = sc.next();
-        System.out.println("请输入年龄:");
-        int age = sc.nextInt();
-        System.out.println("请输入专业：");
-        String major=sc.next();
-        System.out.println("请输入家乡：");
-        String hometown=sc.next();
-
-        //创建学生对象，把键盘录入的数据赋值给学生对象的成员变量
-        //String sid, String name, int age, String major, String hometown
-        Student s = new Student(sid,name,age,major,hometown);
-
-        //往集合中添加学生对象
-        tm.put(sid,s);
-
-        //将更改后的集合重新写入到文件
-        StudentUtil.reSave(tm);
-        //提示添加成功
-        System.out.println("添加成功!");
-    }
-
-
-    //查看学生信息
-    private static void findAll(TreeMap<String,Student> tm) throws IOException {
-        StudentUtil.readFile(tm);
-        //先判断容器中是否有数据,有数据才遍历,没有数据,给出去添加的操作提示
-        if (tm.size() == 0) {
-            System.out.println("系统暂无数据,请先添加学生信息~");
-        } else {
-            System.out.println("学号\t\t姓名\t\t年龄\t\t专业\t\t家乡");
-            Set<String> keys = tm.keySet();
-            for (String key : keys) {
-                Student s=tm.get(key);
-                System.out.println(s.getSid() + "\t" + s.getName() + "\t\t" + s.getAge()
-                        + "岁\t\t" + s.getMajor()+"\t\t"+s.getHometown());
-            }
-        }
-    }
-
-    //删除学生信息
-    private static void deleteStudent(TreeMap<String,Student> tm, Scanner sc) throws IOException {
-        //1. 让用户输入要删除的学号信息
-        System.out.println("请输入要删除的学生编号:");
-        String sid = sc.next();
-        //2. 遍历集合,取到每个学生对象
-        String index = idIsExist(sid, tm);
-        //3. 对index进行判断
-        if (index.equals("no")==false) {
-            //存在
-            tm.remove(index);
-
-            //将更改后的集合重新写入到文件
-            StudentUtil.reSave(tm);
-            System.out.println("删除成功!");
-        } else {
-            //如果程序能走到这,说明用户输入的学号不存在
-            System.out.println("您输入的学号有误,请检查后重新操作!");
-        }
-    }
-    //修改学生信息
-    private static void updateStudent(TreeMap<String,Student> tm, Scanner sc)throws IOException {
-        //1. 键盘录入要修改的学生学号
-        System.out.println("请输入要修改的学生学号:");
-        String sid = sc.next();
-        //2. 针对输入的学号进行校验,遍历集合,拿每个学生对象的学号和输入的学号进行比对
-        String index = idIsExist(sid, tm);
-        if (index.equals("no")==false)  {
-            Student s = tm.get(index);
-            //3. 匹配到了: 修改该学生的信息,进行键盘录入学生的新数据,将新数据替换老数据
             System.out.println("请输入姓名:");
             String name = sc.next();
             System.out.println("请输入年龄:");
@@ -243,18 +173,88 @@ public class Demo2_1 {
             System.out.println("请输入家乡：");
             String hometown=sc.next();
 
-            //正宗的修改应该这样玩:
-            s.setName(name);
-            s.setAge(age);
-            s.setMajor(major);
-            s.setHometown(hometown);
+            //创建学生对象，把键盘录入的数据赋值给学生对象的成员变量
+            //String sid, String name, int age, String major, String hometown
+            Student s = new Student(sid,name,age,major,hometown);
+
+            //往集合中添加学生对象
+            tm.put(sid,s);
+
             //将更改后的集合重新写入到文件
             StudentUtil.reSave(tm);
-            System.out.println("修改成功!");
-        } else {
-            //4. 没有匹配到: 给出提示信息: 您输入的学号有误,请查看后重新输入
-            System.out.println("您输入的学号有误,请检查后重新操作!");
+            //提示添加成功
+            System.out.println("添加成功!");
         }
+
+
+        //查看学生信息
+        private static void findAll(TreeMap<String,Student> tm) throws IOException {
+            StudentUtil.readFile(tm);
+            //先判断容器中是否有数据,有数据才遍历,没有数据,给出去添加的操作提示
+            if (tm.size() == 0) {
+                System.out.println("系统暂无数据,请先添加学生信息~");
+            } else {
+                System.out.println("学号\t\t姓名\t\t年龄\t\t专业\t\t家乡");
+                Set<String> keys = tm.keySet();
+                for (String key : keys) {
+                    Student s=tm.get(key);
+                    System.out.println(s.getSid() + "\t" + s.getName() + "\t\t" + s.getAge()
+                            + "岁\t\t" + s.getMajor()+"\t\t"+s.getHometown());
+                }
+            }
+        }
+
+        //删除学生信息
+        private static void deleteStudent(TreeMap<String,Student> tm, Scanner sc) throws IOException {
+            //1. 让用户输入要删除的学号信息
+            System.out.println("请输入要删除的学生编号:");
+            String sid = sc.next();
+            //2. 遍历集合,取到每个学生对象
+            String index = idIsExist(sid, tm);
+            //3. 对index进行判断
+            if (index.equals("no")==false) {
+                //存在
+                tm.remove(index);
+
+                //将更改后的集合重新写入到文件
+                StudentUtil.reSave(tm);
+                System.out.println("删除成功!");
+            } else {
+                //如果程序能走到这,说明用户输入的学号不存在
+                System.out.println("您输入的学号有误,请检查后重新操作!");
+            }
+        }
+        //修改学生信息
+        private static void updateStudent(TreeMap<String,Student> tm, Scanner sc)throws IOException {
+            //1. 键盘录入要修改的学生学号
+            System.out.println("请输入要修改的学生学号:");
+            String sid = sc.next();
+            //2. 针对输入的学号进行校验,遍历集合,拿每个学生对象的学号和输入的学号进行比对
+            String index = idIsExist(sid, tm);
+            if (index.equals("no")==false)  {
+                Student s = tm.get(index);
+                //3. 匹配到了: 修改该学生的信息,进行键盘录入学生的新数据,将新数据替换老数据
+                System.out.println("请输入姓名:");
+                String name = sc.next();
+                System.out.println("请输入年龄:");
+                int age = sc.nextInt();
+                System.out.println("请输入专业：");
+                String major=sc.next();
+                System.out.println("请输入家乡：");
+                String hometown=sc.next();
+
+                //正宗的修改应该这样玩:
+                s.setName(name);
+                s.setAge(age);
+                s.setMajor(major);
+                s.setHometown(hometown);
+                //将更改后的集合重新写入到文件
+                StudentUtil.reSave(tm);
+                System.out.println("修改成功!");
+            } else {
+                //4. 没有匹配到: 给出提示信息: 您输入的学号有误,请查看后重新输入
+                System.out.println("您输入的学号有误,请检查后重新操作!");
+            }
     }
 
 
