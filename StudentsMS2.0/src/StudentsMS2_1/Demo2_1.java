@@ -101,7 +101,7 @@ class StudentUtil{
     }
     //封装文件写入
     public static void reSave(TreeMap<String,Student> treeMap) throws IOException {
-        BufferedWriter bw=new BufferedWriter(new FileWriter("ITheima\\students.txt"));
+        BufferedWriter bw=new BufferedWriter(new FileWriter("StudentsMS2.0\\students.txt"));
         Set<String> keys= treeMap.keySet();
         for (String key : keys) {
             bw.write(String.valueOf(treeMap.get(key)));
@@ -112,7 +112,7 @@ class StudentUtil{
     }
     //封装读取文件
     public static void readFile(TreeMap<String,Student> treeMap) throws IOException {
-        BufferedReader br=new BufferedReader(new FileReader("ITheima\\students.txt"));
+        BufferedReader br=new BufferedReader(new FileReader("StudentsMS2.0\\students.txt"));
         String line;
         while ((line=br.readLine())!=null){
             String []s=line.split(",");
