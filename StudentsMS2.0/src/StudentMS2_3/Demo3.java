@@ -131,6 +131,7 @@ public class Demo3 {
     static TreeMap<String, Student> tm = new TreeMap<>();
 
     public static void main(String[] args) {
+
         StudentUtil.readFile();
         Scanner cin = new Scanner(System.in);
         out:
@@ -297,13 +298,6 @@ public class Demo3 {
 
 
     //封装一个方法,专门用来判断学号是否存在
-    /*
-        功能: idIsExist: 判断指定的学号是否和集合中的学生学号相同
-        条件: String sid,ArrayList<Student> list : sid: 输入的学号, list:要查找的集合
-        结果: int : 返回对应学号指定的学生对象在集合中的索引值
-                        如果存在: 返回正常索引
-                        如果不存在: 返回 -1
-     */
     private static String idIsExist(String sid, TreeMap<String, Student> tm) {
         Set<String> keys = tm.keySet();
         for (String key : keys) {
